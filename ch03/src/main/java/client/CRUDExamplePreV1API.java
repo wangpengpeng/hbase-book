@@ -22,6 +22,10 @@ public class CRUDExamplePreV1API {
     // vv CRUDExamplePreV1API
     Configuration conf = HBaseConfiguration.create();
 
+    // zk config
+    conf.set("hbase.rootdir", "hdfs://crm-master1:9000/hbase");
+    conf.set("hbase.zookeeper.quorum", "crm-slave1,crm-slave2,crm-master2");
+
     // ^^ CRUDExamplePreV1API
     HBaseHelper helper = HBaseHelper.getHelper(conf);
     helper.dropTable("testtable");
@@ -29,12 +33,12 @@ public class CRUDExamplePreV1API {
 
     // vv CRUDExamplePreV1API
     HTable table = new HTable(conf, "testtable");
-
+//    table.setAutoFlush(false); //缓存一下数据。
     Put put = new Put(Bytes.toBytes("row1"));
-    put.add(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
-      Bytes.toBytes("val1"));
-    put.add(Bytes.toBytes("colfam2"), Bytes.toBytes("qual2"),
-      Bytes.toBytes("val2"));
+    put.add(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"), Bytes.toBytes("val1"));
+    put.add(Bytes.toBytes("colfam2"), Bytes.toBytes("qual2"), Bytes.toBytes("val2"));
+
+
     table.put(put);
 
     Scan scan = new Scan();

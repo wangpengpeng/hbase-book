@@ -24,8 +24,13 @@ public class CRUDExample {
     // vv CRUDExample
     Configuration conf = HBaseConfiguration.create();
 
+    // zk config
+    conf.set("hbase.rootdir", "hdfs://crm-master1:9000/hbase");
+    conf.set("hbase.zookeeper.quorum", "crm-slave1,crm-slave2,crm-master2");
+
     // ^^ CRUDExample
     HBaseHelper helper = HBaseHelper.getHelper(conf);
+
     helper.dropTable("testtable");
     helper.createTable("testtable", "colfam1", "colfam2");
 
@@ -34,6 +39,7 @@ public class CRUDExample {
       Connection connection = ConnectionFactory.createConnection(conf);
       Table table = connection.getTable(TableName.valueOf("testtable"));
     ) {
+
       Put put = new Put(Bytes.toBytes("row1"));
       put.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"),
         Bytes.toBytes("val1"));
@@ -48,13 +54,13 @@ public class CRUDExample {
           System.out.println("Cell: " + result2.current());
       }
 
+      // 单个取值
       Get get = new Get(Bytes.toBytes("row1"));
       get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
       Result result = table.get(get);
       System.out.println("Get result: " + result);
-      byte[] val = result.getValue(Bytes.toBytes("colfam1"),
-        Bytes.toBytes("qual1"));
-      System.out.println("Value only: " + Bytes.toString(val));
+      byte[] val = result.getValue(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
+      System.out.println("colfam1 qual1 Value only: " + Bytes.toString(val));
 
       Delete delete = new Delete(Bytes.toBytes("row1"));
       delete.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
