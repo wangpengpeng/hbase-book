@@ -20,11 +20,13 @@ public class CRUDExamplePreV1API {
 
   public static void main(String[] args) throws IOException {
     // vv CRUDExamplePreV1API
-    Configuration conf = HBaseConfiguration.create();
+//    Configuration conf = HBaseConfiguration.create();
+//
+//    // zk config
+//    conf.set("hbase.rootdir", "hdfs://crm-master1:9000/hbase");
+//    conf.set("hbase.zookeeper.quorum", "crm-slave1,crm-slave2,crm-master2");
 
-    // zk config
-    conf.set("hbase.rootdir", "hdfs://crm-master1:9000/hbase");
-    conf.set("hbase.zookeeper.quorum", "crm-slave1,crm-slave2,crm-master2");
+    Configuration conf =  HbaseConf.getConf();
 
     // ^^ CRUDExamplePreV1API
     HBaseHelper helper = HBaseHelper.getHelper(conf);

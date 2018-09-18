@@ -19,11 +19,13 @@ import util.HBaseHelper;
 
 public class GetCloneExample {
 
+
   public static void main(String[] args) throws IOException {
-    Configuration conf = HBaseConfiguration.create();
-    // zk config
-    conf.set("hbase.rootdir", "hdfs://crm-master1:9000/hbase");
-    conf.set("hbase.zookeeper.quorum", "crm-slave1,crm-slave2,crm-master2");
+//    Configuration conf = HBaseConfiguration.create();
+//    // zk config
+//    conf.set("hbase.rootdir", "hdfs://crm-master1:9000/hbase");
+//    conf.set("hbase.zookeeper.quorum", "crm-slave1,crm-slave2,crm-master2");
+    Configuration conf =  HbaseConf.getConf();
 
     HBaseHelper helper = HBaseHelper.getHelper(conf);
     if (!helper.existsTable("testtable")) {
